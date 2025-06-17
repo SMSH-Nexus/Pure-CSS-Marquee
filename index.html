@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>無外框跑馬燈</title>
+<style type="text/css">
+  .cin-marquee {
+    /* 外框的視覺樣式已全部移除 (如 border, padding, background-color, box-shadow)。
+      只保留垂直邊距(margin)，讓它和其他網頁內容之間有點間隔。
+    */
+    margin: 20px 0;
+  }
+
+  /* 外層容器：隱藏超出範圍的內容 */
+  .marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  /* 內層內容：實際執行動畫的對象 */
+  .marquee-content {
+    display: inline-block; /* 必須設為 inline-block 才能使用 transform */
+    padding-left: 100%;    /* 讓文字從容器右側外開始 */
+    animation: marquee-transform 20s linear infinite;
+  }
+  
+  /* 當容器被加上 .paused class 時，暫停動畫 */
+  .marquee-container.paused .marquee-content {
+    animation-play-state: paused;
+  }
+  
+  /* 滑鼠移上去時也暫停 */
+  .marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+  }
+
+  .cin-marquee a {
+    color: #3463fe;
+    text-decoration: none;
+  }
+  .cin-marquee a:hover {
+    text-decoration: underline;
+  }
+
+  /* 使用 transform 定義動畫，效能更好 */
+  @keyframes marquee-transform {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-200%); /* 移動整個寬度加上文字自身的寬度 */
+    }
+  }
+
+  /* 按鈕樣式 */
+  .button-container {
+    text-align: right;
+    margin-top: 10px;
+  }
+  #btnkey {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  #btnkey:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  #btnkey:active {
+    background-color: #003f7f;
+  }
+  #btnkey.toggled {
+    background-color: #28a745;
+  }
+</style>
+</head>
+<body>
+
+<div class="cin-marquee">
+  <div class="marquee-container" id="marquee-news">
+    <div class="marquee-content">
+      <span style="font-size: 1.3em;">
+        <strong>請在這裡填入跑馬燈的文字</strong>
+      </span>
+    </div>
+  </div>
+  <div class="button-container">
+    <button id="btnkey" onclick="toggleMarquee(this)" title="點擊後跑馬燈可播放及暫停" type="button">
+      點我暫停文字跑馬燈
+    </button>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function toggleMarquee(button) {
+    var marquee = document.getElementById("marquee-news");
+
+    marquee.classList.toggle("paused");
+    button.classList.toggle("toggled");
+
+    if (marquee.classList.contains("paused")) {
+      button.innerHTML = "點我播放文字跑馬燈";
+    } else {
+      button.innerHTML = "點我暫停文字跑馬燈";
+    }
+  }
+</script>
+
+</body>
+</html>
